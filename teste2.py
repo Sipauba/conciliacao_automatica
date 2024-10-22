@@ -11,6 +11,9 @@ time.sleep(5)
 # Cria duas variáveis com as dimensões da tela
 largura_tela, altura_tela = pyautogui.size()
 
+centro_x_campo_dt_compensacao = 0
+centro_y_campo_dt_compensacao = 0
+
 # Carrega a imagem que eu preciso encontrar na tela
 campo_dt_compensacao = cv2.imread('dt-compensacao.png',0)
 
@@ -53,7 +56,7 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 padrao_data = r'\b\d{2}[-./]\d{2}[-./]\d{4}\b'
 
 # Definir o bbox para a área da tela onde as datas estão (ajustar conforme necessário)
-bbox = (100, 100, 800, 600)  # Coordenadas x1, y1, x2, y2 da área de captura
+bbox = (0, (centro_y_campo_dt_compensacao + 50), (largura_tela // 2), (altura_tela - 50))  # Coordenadas x1, y1, x2, y2 da área de captura
 
 # Função a ser executada ao encontrar uma data válida
 def funcao_ao_encontrar_data(x, y, data):
@@ -73,6 +76,7 @@ def funcao_ao_encontrar_data(x, y, data):
     pyautogui.moveTo(x_real, y_real)
     time.sleep(2)
     pyautogui.click()
+    time.sleep(2)
     
 
     
